@@ -232,6 +232,7 @@ void DrawingAreaCoordinatedGraphics::forceRepaintAsync(WebPage& page, Completion
 
 void DrawingAreaCoordinatedGraphics::setLayerTreeStateIsFrozen(bool isFrozen)
 {
+    printf("DrawingAreaCoordinatedGraphics::setLayerTreeStateIsFrozen: isFrozen=%d\n", isFrozen);
     if (m_layerTreeStateIsFrozen == isFrozen)
         return;
 

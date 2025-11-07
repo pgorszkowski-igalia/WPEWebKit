@@ -189,6 +189,7 @@ enum {
     PROP_ENABLE_ICE_CANDIDATE_FILTERING,
     PROP_WEBRTC_UDP_PORTS_RANGE,
     PROP_SCREEN_SUPPORTS_HDR,
+    PROP_RELEASE_NATIVE_WINDOW_ON_SUSPEND,
     N_PROPERTIES,
 };
 
@@ -452,6 +453,9 @@ ALLOW_DEPRECATED_DECLARATIONS_END
     case PROP_SCREEN_SUPPORTS_HDR:
         webkit_settings_set_screen_supports_hdr(settings, g_value_get_boolean(value));
         break;
+    case PROP_RELEASE_NATIVE_WINDOW_ON_SUSPEND:
+        webkit_settings_set_release_native_window_on_suspend(settings, g_value_get_boolean(value));
+        break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, propId, paramSpec);
         break;
@@ -685,6 +689,9 @@ ALLOW_DEPRECATED_DECLARATIONS_END
         break;
     case PROP_SCREEN_SUPPORTS_HDR:
         g_value_set_boolean(value, webkit_settings_get_screen_supports_hdr(settings));
+        break;
+    case PROP_RELEASE_NATIVE_WINDOW_ON_SUSPEND:
+        g_value_set_boolean(value, webkit_settings_get_release_native_window_on_suspend(settings));
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, propId, paramSpec);
@@ -1824,6 +1831,19 @@ static void webkit_settings_class_init(WebKitSettingsClass* klass)
         "screen-supports-hdr",
         _("Screen supports HDR"),
         _("Does screen support HDR."),
+        FALSE,
+        readWriteConstructParamFlags);
+
+     /**
+     * WebKitSettings:release-native-window-on-suspend:
+     *
+     * Release native window on suspend.
+     *
+     */
+    sObjProperties[PROP_RELEASE_NATIVE_WINDOW_ON_SUSPEND] = g_param_spec_boolean(
+        "release-native-window-on-suspend",
+        _("Release native window on suspend"),
+        _("Whether to release native window on suspend."),
         FALSE,
         readWriteConstructParamFlags);
 
@@ -4603,4 +4623,41 @@ webkit_settings_set_screen_supports_hdr(WebKitSettings* settings, gboolean scree
 
     priv->preferences->setScreenSupportsHDR(screenSupportsHDR);
     g_object_notify_by_pspec(G_OBJECT(settings), sObjProperties[PROP_SCREEN_SUPPORTS_HDR]);
+}
+
+/**
+ * webkit_settings_get_release_native_window_on_suspend:
+ * @settings: a #WebKitSettings
+ *
+ * Get the [property@Settings:release-native-window-on-suspend] property.
+ *
+ * Returns: Whether to release native window on suspend.
+ *
+ */
+gboolean
+webkit_settings_get_release_native_window_on_suspend(WebKitSettings* settings)
+{
+    g_return_val_if_fail(WEBKIT_IS_SETTINGS(settings), FALSE);
+    return settings->priv->preferences->releaseNativeWindowOnSuspend();
+}
+
+/**
+ * webkit_settings_set_release_native_window_on_suspend:
+ * @settings: a #WebKitSettings
+ * @releaseNativeWindowOnSuspend: Value to be set
+ *
+ * Set the [property@Settings:release-native-window-on-suspend] property.
+ *
+ */
+void
+webkit_settings_set_release_native_window_on_suspend(WebKitSettings* settings, gboolean releaseNativeWindowOnSuspend)
+{
+    g_return_if_fail(WEBKIT_IS_SETTINGS(settings));
+    WebKitSettingsPrivate* priv = settings->priv;
+    bool currentValue = priv->preferences->releaseNativeWindowOnSuspend();
+    if (currentValue == releaseNativeWindowOnSuspend)
+        return;
+
+    priv->preferences->setReleaseNativeWindowOnSuspend(releaseNativeWindowOnSuspend);
+    g_object_notify_by_pspec(G_OBJECT(settings), sObjProperties[PROP_RELEASE_NATIVE_WINDOW_ON_SUSPEND]);
 }

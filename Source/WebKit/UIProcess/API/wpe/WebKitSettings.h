@@ -554,6 +554,13 @@ WEBKIT_API void
 webkit_settings_set_screen_supports_hdr                        (WebKitSettings* settings,
                                                                 gboolean screenSupportsHDR);
 
+WEBKIT_API gboolean
+webkit_settings_get_release_native_window_on_suspend           (WebKitSettings* settings);
+
+WEBKIT_API void
+webkit_settings_set_release_native_window_on_suspend           (WebKitSettings* settings,
+                                                                gboolean releaseNativeWindowOnSuspend);
+
 G_END_DECLS
 
 #endif /* WebKitSettings_h */

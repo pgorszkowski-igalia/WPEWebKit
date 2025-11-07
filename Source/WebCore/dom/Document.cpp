@@ -1856,6 +1856,7 @@ void Document::unregisterForVisibilityStateChangedCallbacks(VisibilityChangeClie
 
 void Document::visibilityStateChanged()
 {
+    printf("Document %p visibilityState changed to %s\n", this, visibilityState() == VisibilityState::Visible ? "visible" : "hidden");
     // https://w3c.github.io/page-visibility/#reacting-to-visibilitychange-changes
     queueTaskToDispatchEvent(TaskSource::UserInteraction, Event::create(eventNames().visibilitychangeEvent, Event::CanBubble::Yes, Event::IsCancelable::No));
     for (auto& client : m_visibilityStateCallbackClients)

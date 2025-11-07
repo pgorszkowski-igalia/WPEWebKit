@@ -1853,6 +1853,19 @@ PunchOutWhiteBackgroundsInDarkMode:
     WebCore:
       default: false
 
+ReleaseNativeWindowOnSuspend:
+  type: bool
+  humanReadableName: "Release the native window on suspend"
+  humanReadableDescription: "Release the native window when the page is suspended to save resources"
+  condition: PLATFORM(WPE)
+  defaultValue:
+    WebKitLegacy:
+      default: false
+    WebKit:
+      default: false
+    WebCore:
+      default: false
+
 RequiresPageVisibilityToPlayAudio:
   type: bool
   defaultValue:

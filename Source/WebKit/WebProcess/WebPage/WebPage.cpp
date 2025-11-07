@@ -2910,6 +2910,7 @@ void WebPage::isLayerTreeFrozen(CompletionHandler<void(bool)>&& completionHandle
 
 void WebPage::updateDrawingAreaLayerTreeFreezeState()
 {
+    printf("WebPage::updateDrawingAreaLayerTreeFreezeState: reasons=%d\n", m_layerTreeFreezeReasons.toRaw());
     if (!m_drawingArea)
         return;
 

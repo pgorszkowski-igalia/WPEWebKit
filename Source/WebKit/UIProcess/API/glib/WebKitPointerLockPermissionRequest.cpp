@@ -62,7 +62,9 @@ static void webkitPointerLockPermissionRequestAllow(WebKitPermissionRequest* req
     if (priv->madeDecision)
         return;
 
+#if ENABLE(POINTER_LOCK)
     webkitWebViewRequestPointerLock(priv->webView.get());
+#endif
     priv->madeDecision = true;
 }
 
@@ -76,7 +78,9 @@ static void webkitPointerLockPermissionRequestDeny(WebKitPermissionRequest* requ
     if (priv->madeDecision)
         return;
 
+#if ENABLE(POINTER_LOCK)
     webkitWebViewDenyPointerLockRequest(priv->webView.get());
+#endif
     priv->madeDecision = true;
 }
 

@@ -423,6 +423,7 @@ static void fireEventsAndStopLoadingRecursively(Frame& frame)
 
 std::unique_ptr<CachedPage> BackForwardCache::trySuspendPage(Page& page, ForceSuspension forceSuspension)
 {
+    printf("BackForwardCache::trySuspendPage\n");
     page.mainFrame().loader().stopForBackForwardCache();
 
     if (forceSuspension == ForceSuspension::No && !canCache(page))

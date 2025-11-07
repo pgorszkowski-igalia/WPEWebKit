@@ -3357,6 +3357,7 @@ void Element::dispatchFocusOutEventIfNeeded(RefPtr<Element>&& newFocusedElement)
 
 void Element::dispatchFocusEvent(RefPtr<Element>&& oldFocusedElement, const FocusOptions& options)
 {
+    printf("Element::dispatchFocusEvent\n");
     if (auto* page = document().page())
         page->chrome().client().elementDidFocus(*this, options);
     dispatchEvent(FocusEvent::create(eventNames().focusEvent, Event::CanBubble::No, Event::IsCancelable::No, document().windowProxy(), 0, WTFMove(oldFocusedElement)));
@@ -3364,6 +3365,7 @@ void Element::dispatchFocusEvent(RefPtr<Element>&& oldFocusedElement, const Focu
 
 void Element::dispatchBlurEvent(RefPtr<Element>&& newFocusedElement)
 {
+    printf("Element::dispatchBlurEvent\n");
     if (auto* page = document().page())
         page->chrome().client().elementDidBlur(*this);
     dispatchEvent(FocusEvent::create(eventNames().blurEvent, Event::CanBubble::No, Event::IsCancelable::No, document().windowProxy(), 0, WTFMove(newFocusedElement)));
